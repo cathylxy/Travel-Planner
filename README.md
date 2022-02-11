@@ -1,7 +1,7 @@
 # Travel Planner
 
 
-## Description
+## Proposal
 
 **Travel Planner** is an application that intends to help people plan their trip by adding activities, setting location and 
 amount of time they want to spend on each activity. This application also allows people to keep track and 
@@ -13,3 +13,10 @@ I would encounter many problems if I did not make a plan. Therefore, I am very i
 improve people’s travel experience by helping them make a travel plan. 
 
 
+## User Stories
+
+- I want to be able to add one or multiple activities to my travel planner.
+- I want to be able to delete one or multiple activities to my travel planner.
+- I want to be able to set the number of hours I spend on an activity.
+- I want to be able to view the total number of hours I spend each day during my trip. 
+- I want to be able to view a list of activities in the same location. 
