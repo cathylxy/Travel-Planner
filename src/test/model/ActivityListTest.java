@@ -39,7 +39,7 @@ public class ActivityListTest {
     void testDeleteOneActivity() {
         testActivityList.addActivity(activity1);
         testActivityList.addActivity(activity2);
-        testActivityList.delete(activity1);
+        testActivityList.deleteActivity(activity1);
         assertEquals(activity2, testActivityList.getPlanner().get(0));
         assertEquals(1, testActivityList.getPlanner().size());
         assertEquals(3, testActivityList.getTotal());
@@ -49,7 +49,7 @@ public class ActivityListTest {
     void testTotalHours() {
         testActivityList.addActivity(activity1);
         testActivityList.addActivity(activity2);
-        testActivityList.delete(activity1);
+        testActivityList.deleteActivity(activity1);
         assertEquals(3, testActivityList.totalHours());
     }
 

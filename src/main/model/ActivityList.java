@@ -23,7 +23,7 @@ public class ActivityList {
     // MODIFIES: this
     // EFFECTS: delete an activity from my planner
     //          subtract corresponding hours of total hours
-    public void delete(Activity activity) {
+    public void deleteActivity(Activity activity) {
         int pos = planner.indexOf(activity); //get index of activity
         planner.remove(pos);
         total -= activity.getHours();
