@@ -1,10 +1,11 @@
 package model;
 
+// Represents an activity having a description, location and number of hours spending on the activity.
 public class Activity {
     private String description;
     private String location;
     private int hours;
-    private static final int MAX_HOURS = 24; // max hours can be added to each activity
+    public static final int MAX_HOURS = 24; // max hours can be added to each activity
 
     public Activity(String description, String location, int hours) {
         this.description = description;
@@ -40,14 +41,17 @@ public class Activity {
         return false;
     }
 
+    // EFFECTS: get description of activity
     public String getDescription() {
         return description;
     }
 
+    // EFFECTS: get hours of activity
     public int getHours() {
         return hours;
     }
 
+    // EFFECTS: get location of activity
     public String getLocation() {
         return location;
     }

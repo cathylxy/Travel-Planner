@@ -25,14 +25,16 @@ public class ActivityListTest {
         testActivityList.addActivity(activity1);
         assertEquals(activity1, testActivityList.getPlanner().get(0));
         assertEquals(1, testActivityList.getPlanner().size());
-        assertEquals(2, testActivityList.getTotal());
+        assertEquals(2, testActivityList.totalHours());
     }
 
+    @Test
     void testAddTwoActivity() {
+        testActivityList.addActivity(activity1);
         testActivityList.addActivity(activity2);
         assertEquals(activity2, testActivityList.getPlanner().get(1));
         assertEquals(2, testActivityList.getPlanner().size());
-        assertEquals(5, testActivityList.getTotal());
+        assertEquals(5, testActivityList.totalHours());
     }
 
     @Test
@@ -42,11 +44,19 @@ public class ActivityListTest {
         testActivityList.deleteActivity(activity1);
         assertEquals(activity2, testActivityList.getPlanner().get(0));
         assertEquals(1, testActivityList.getPlanner().size());
-        assertEquals(3, testActivityList.getTotal());
+        assertEquals(3, testActivityList.totalHours());
     }
 
     @Test
-    void testTotalHours() {
+    void testTotalHoursIncrease() {
+        testActivityList.addActivity(activity1);
+        testActivityList.addActivity(activity2);
+        assertEquals(5, testActivityList.totalHours());
+    }
+
+
+    @Test
+    void testTotalHoursReduce() {
         testActivityList.addActivity(activity1);
         testActivityList.addActivity(activity2);
         testActivityList.deleteActivity(activity1);
@@ -58,10 +68,10 @@ public class ActivityListTest {
         testActivityList.addActivity(activity1);
         testActivityList.addActivity(activity2);
         testActivityList.addActivity(activity3);
-        ArrayList<Activity> expectedResult = new ArrayList<>();
-        expectedResult.add(activity1);
-        expectedResult.add(activity3);
-        assertEquals(expectedResult, testActivityList.activitiesByLocation("Vancouver"));
+        ArrayList<Activity> loc = new ArrayList<>();
+        loc.add(activity1);
+        loc.add(activity3);
+        assertEquals(loc, testActivityList.activitiesByLocation("Vancouver"));
     }
 
 

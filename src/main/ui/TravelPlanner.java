@@ -7,12 +7,14 @@ import model.ActivityList;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static model.Activity.MAX_HOURS;
+
 //Travel Planner Application
 public class TravelPlanner {
     private ActivityList travelPlan;
     private Scanner input;
 
-    //EFFECTS: run the travel planner application
+    //EFFECTS: run travel planner application
     public TravelPlanner() {
         runTravelPlanner();
     }
@@ -54,7 +56,7 @@ public class TravelPlanner {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes travel plan
+    // EFFECTS: initializes activity list
     private void init() {
         ArrayList activityList = new ArrayList<>();
         travelPlan = new ActivityList(activityList);
@@ -82,18 +84,29 @@ public class TravelPlanner {
             selection = input.next().toLowerCase();
         }
         if (selection.equals("a")) {
-            System.out.println("Enter description of activity: ");
-            String name = input.next();
-            System.out.println("Enter the location of this activity: ");
-            String place = input.next();
-            System.out.println("Enter the number of hours: ");
-            int time = input.nextInt();
-            Activity activity = new Activity(name, place, time);
-            travelPlan.addActivity(activity);
-            System.out.println("You have added an activity!");
-        } else if (selection.equals("d")) {
-            travelPlan.deleteActivity(findActivity());
+            doAdd();
+        } else {
+            travelPlan.deleteActivity(findActivity());  // command d
+            System.out.println("You have deleted an activity!");
         }
+    }
+    
+    // MODIFIES: this
+    // EFFECTS: add activity with user input of description, location, hours
+    private void doAdd() {
+        System.out.println("Enter description of activity: ");
+        String name = input.next();
+        System.out.println("Enter the location of this activity: ");
+        String place = input.next();
+        System.out.println("Enter the number of hours: ");
+        int time = input.nextInt();
+        while (time < 0 || time > MAX_HOURS) {
+            System.out.println("Hours need to be larger than 0 and smaller than 24. Please re-enter.");
+            time = input.nextInt();
+        }
+        Activity activity = new Activity(name, place, time);
+        travelPlan.addActivity(activity);
+        System.out.println("You have added an activity!");
     }
 
     // MODIFIES: this
@@ -106,25 +119,23 @@ public class TravelPlanner {
             System.out.println("\tr -> reduce hours");
             selection = input.next().toLowerCase();
         }
-        int ind = findActivityIndex(); //enter description name
-
-        ArrayList<Activity> activities = travelPlan.getPlanner();
-        ArrayList<Activity> nameList = new ArrayList<>();
-        for (Activity activity : activities) {
-            Activity toBeModified = travelPlan.getPlanner().get(ind);
-            if (selection.equals("a")) {
-                System.out.println("Enter hours to add: ");
-                int add = input.nextInt();
-                toBeModified.addHours(add);
-            } else if (selection.equals("r")) {
-                System.out.println("Enter hours to reduce: ");
-                int reduce = input.nextInt();
-                toBeModified.reduceHours(reduce);
-            }
+        Activity toBeModified = findActivity();
+        if (toBeModified == null) {
+            System.out.println("No Activity is found.");
+            return;
+        }
+        if (selection.equals("a")) {
+            System.out.println("Enter hours to add: ");
+            int add = input.nextInt();
+            toBeModified.addHours(add);
+        } else {
+            System.out.println("Enter hours to reduce: ");
+            int reduce = input.nextInt();
+            toBeModified.reduceHours(reduce);
         }
     }
 
-    // EFFECTS: display travel plan and hours
+    // EFFECTS: display travel plan
     private void doDisplay() {
         String selection = "";
         System.out.println("\nSelect from:");
@@ -134,8 +145,8 @@ public class TravelPlanner {
             selection = input.next().toLowerCase();
         }
         if (selection.equals("h")) {
-            travelPlan.getTotal();
-            System.out.println("Total hours: " + travelPlan.getTotal() + " hours");
+            travelPlan.totalHours();
+            System.out.println("Total hours: " + travelPlan.totalHours() + " hours");
         } else if (selection.equals("l")) {
             System.out.println("Enter location: ");
             String loc = input.next();
@@ -156,7 +167,6 @@ public class TravelPlanner {
         System.out.println("Enter description of activity: ");
         String name = input.next();
         ArrayList<Activity> activities = travelPlan.getPlanner();
-        ArrayList<Activity> nameList = new ArrayList<>();
         for (Activity activity : activities) {
             if (name.equals(activity.getDescription())) {
                 return travelPlan.getPlanner().indexOf(activity);
@@ -168,10 +178,8 @@ public class TravelPlanner {
     // EFFECTS: get the activity with corresponding description
     private Activity findActivity() {
         int ind = findActivityIndex(); //enter description name
-        ArrayList<Activity> activities = travelPlan.getPlanner();
-        for (Activity activity : activities) {
-            Activity act = travelPlan.getPlanner().get(ind);
-            return act;
+        if (ind != -1) {
+            return travelPlan.getPlanner().get(ind);
         }
         return null;
     }

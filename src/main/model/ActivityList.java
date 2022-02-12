@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+// Represents a list of activities
 public class ActivityList {
     private ArrayList<Activity> planner;
     private int total;
@@ -11,16 +12,16 @@ public class ActivityList {
         this.total = 0;
     }
 
-    // MODIFIES: this
-    // EFFECTS: add an activity to planner
-    //          add corresponding hours of total hours
+    // MODIFIES: this, total
+    // EFFECTS: add an activity to travel planner
+    //          add hours of activity to total hours
     public void addActivity(Activity activity) {
         planner.add(activity);
         total += activity.getHours();
     }
 
     // REQUIRES: planner is not empty
-    // MODIFIES: this
+    // MODIFIES: this, total
     // EFFECTS: delete an activity from my planner
     //          subtract corresponding hours of total hours
     public void deleteActivity(Activity activity) {
@@ -29,7 +30,8 @@ public class ActivityList {
         total -= activity.getHours();
     }
 
-    // EFFECTS: return total number of hours
+    // REQUIRES: total >= 0
+    // EFFECTS: return total number of hours of all activities
     public int totalHours() {
         return total;
     }
@@ -45,12 +47,9 @@ public class ActivityList {
         return sameLocation;
     }
 
+    // EFFECTS: get activity list
     public ArrayList<Activity> getPlanner() {
         return planner;
-    }
-
-    public int getTotal() {
-        return total;
     }
 
 }
