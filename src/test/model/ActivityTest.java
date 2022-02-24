@@ -20,26 +20,26 @@ class ActivityTest {
 
     @Test
     void testAddHours() {
-        assertTrue(testActivity.addHours(1));
+        assertEquals(4, testActivity.addHours(1));
         assertEquals(4, testActivity.getHours());
     }
 
     @Test
     void testExceedMaxHours() {
         testActivity = new Activity("Skiing", "Whistler", 24);
-        assertFalse(testActivity.addHours(1));
+        assertEquals(24, testActivity.addHours(1));
         assertEquals(24, testActivity.getHours());
     }
 
     @Test
     void testReduceHours(){
-        assertTrue(testActivity.reduceHours(1));
+        assertEquals(2, testActivity.reduceHours(1));
         assertEquals(2, testActivity.getHours());
     }
 
     @Test
     void testBelowMinHours(){
-        assertFalse(testActivity.reduceHours(3));
+        assertEquals(3, testActivity.reduceHours(4));
         assertEquals(3, testActivity.getHours());
     }
 

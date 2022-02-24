@@ -15,7 +15,8 @@ improve people’s travel experience by helping them make a travel plan.
 
 ## User Stories
 
-- I want to be able to add or delete one or multiple activities on my travel planner.
+- I want to be able to add one or multiple activities on my travel planner.
+- I want to be able to delete one or multiple activities on my travel planner.
 - I want to be able to add or reduce the number of hours I spend on each activity.
 - I want to be able to view total number of hours I spend on all activities.
 - I want to be able to view a list of activities in the same location. 

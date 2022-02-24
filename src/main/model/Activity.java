@@ -19,12 +19,11 @@ public class Activity {
     //           - add the number of hours spent on an activity
     //           - return true
     //           otherwise, return false
-    public boolean addHours(int hrs) {
+    public int addHours(int hrs) {
         if (getHours() + hrs <= MAX_HOURS) {
             this.hours += hrs;
-            return true;
         }
-        return false;
+        return hours;
     }
 
     // REQUIRES: hrs > 0
@@ -33,12 +32,11 @@ public class Activity {
     //          - reduce the number of hours spent on an activity by hrs
     //          - return true
     //          otherwise, return false
-    public boolean reduceHours(int hrs) {
+    public int reduceHours(int hrs) {
         if (hrs < getHours()) {
             this.hours -= hrs;
-            return true;
         }
-        return false;
+        return hours;
     }
 
     // EFFECTS: get description of activity

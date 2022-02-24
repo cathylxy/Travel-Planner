@@ -1,6 +1,5 @@
 package ui;
 
-
 import model.Activity;
 import model.ActivityList;
 
@@ -23,7 +22,7 @@ public class TravelPlanner {
     // EFFECTS: processes user input
     private void runTravelPlanner() {
         boolean keepGoing = true;
-        String command = null;
+        String command;
 
         init();
 
@@ -86,11 +85,10 @@ public class TravelPlanner {
         if (selection.equals("a")) {
             doAdd();
         } else {
-            travelPlan.deleteActivity(findActivity());  // command d
-            System.out.println("You have deleted an activity!");
+            doDelete();
         }
     }
-    
+
     // MODIFIES: this
     // EFFECTS: add activity with user input of description, location, hours
     private void doAdd() {
@@ -109,6 +107,13 @@ public class TravelPlanner {
         System.out.println("You have added an activity!");
     }
 
+    private void doDelete() {
+        System.out.println("Enter description of activity: ");
+        String name = input.next();
+        travelPlan.deleteActivity(travelPlan.findActivity(name));  // command d
+        System.out.println("You have deleted an activity!");
+    }
+
     // MODIFIES: this
     // EFFECTS: modify travel plan
     private void doModify() {
@@ -119,10 +124,11 @@ public class TravelPlanner {
             System.out.println("\tr -> reduce hours");
             selection = input.next().toLowerCase();
         }
-        Activity toBeModified = findActivity();
+        System.out.println("Enter description of activity: ");
+        String name = input.next();
+        Activity toBeModified = travelPlan.findActivity(name);
         if (toBeModified == null) {
             System.out.println("No Activity is found.");
-            return;
         }
         if (selection.equals("a")) {
             System.out.println("Enter hours to add: ");
@@ -133,6 +139,7 @@ public class TravelPlanner {
             int reduce = input.nextInt();
             toBeModified.reduceHours(reduce);
         }
+        System.out.println("You will spend " + toBeModified.getHours() + " hours on " + toBeModified.getDescription());
     }
 
     // EFFECTS: display travel plan
@@ -150,7 +157,7 @@ public class TravelPlanner {
         } else if (selection.equals("l")) {
             System.out.println("Enter location: ");
             String loc = input.next();
-            if (travelPlan.getPlanner().isEmpty()) {
+            if (travelPlan.activitiesByLocation(loc).isEmpty()) {
                 System.out.println("No activity found");
             } else {
                 System.out.println("Activities in " + loc + " are ");
@@ -162,27 +169,6 @@ public class TravelPlanner {
         }
     }
 
-    // EFFECTS: get index of activity with corresponding description
-    private int findActivityIndex() {
-        System.out.println("Enter description of activity: ");
-        String name = input.next();
-        ArrayList<Activity> activities = travelPlan.getPlanner();
-        for (Activity activity : activities) {
-            if (name.equals(activity.getDescription())) {
-                return travelPlan.getPlanner().indexOf(activity);
-            }
-        }
-        return -1;
-    }
-
-    // EFFECTS: get the activity with corresponding description
-    private Activity findActivity() {
-        int ind = findActivityIndex(); //enter description name
-        if (ind != -1) {
-            return travelPlan.getPlanner().get(ind);
-        }
-        return null;
-    }
 }
 
 
