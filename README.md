@@ -20,3 +20,6 @@ improve people’s travel experience by helping them make a travel plan.
 - I want to be able to add or reduce the number of hours I spend on each activity.
 - I want to be able to view total number of hours I spend on all activities.
 - I want to be able to view a list of activities in the same location. 
+- As a user, I want to be able to save my travel plan to file.
+- As a user, I want to be able to be able to load my travel plan from file.
+
