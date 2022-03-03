@@ -17,7 +17,7 @@ public class ActivityListTest {
     @BeforeEach
     void runBefore() {
         ArrayList activityList = new ArrayList<>();
-        testActivityList = new ActivityList(activityList);
+        testActivityList = new ActivityList();
         activity1 = new Activity("Granville Island", "Vancouver", 2);
         activity2 = new Activity("Suspension Bridge", " North Vancouver", 3);
         activity3 = new Activity("Vancouver Art Gallery", "Vancouver", 3);

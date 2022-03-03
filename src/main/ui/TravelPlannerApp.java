@@ -2,19 +2,31 @@ package ui;
 
 import model.Activity;
 import model.ActivityList;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import static model.Activity.MAX_HOURS;
 
 //Travel Planner Application
-public class TravelPlanner {
+public class TravelPlannerApp {
     private ActivityList travelPlan;
     private Scanner input;
+    private static final String JSON_STORE = "./data/travelplanner.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     //EFFECTS: run travel planner application
-    public TravelPlanner() {
+    public TravelPlannerApp() {
+        input = new Scanner(System.in);
+        travelPlan = new ActivityList();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runTravelPlanner();
     }
 
@@ -43,12 +55,16 @@ public class TravelPlanner {
     // MODIFIES: this
     // EFFECTS: processes user command
     private void processCommand(String command) {
-        if (command.equals("s")) {
+        if (command.equals("n")) {
             doStart();
         } else if (command.equals("m")) {
             doModify();
         } else if (command.equals("d")) {
             doDisplay();
+        } else if (command.equals("s")) {
+            saveTravelPlan();
+        } else if (command.equals("l")) {
+            loadTravelPlan();
         } else {
             System.out.println("Selection not valid");
         }
@@ -58,7 +74,7 @@ public class TravelPlanner {
     // EFFECTS: initializes activity list
     private void init() {
         ArrayList activityList = new ArrayList<>();
-        travelPlan = new ActivityList(activityList);
+        travelPlan = new ActivityList();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
     }
@@ -66,9 +82,11 @@ public class TravelPlanner {
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
         System.out.println("\nSelect from:");
-        System.out.println("\ts -> start travel plan");
+        System.out.println("\tn -> new travel plan");
         System.out.println("\tm -> modify travel plan");
         System.out.println("\td -> display travel plan");
+        System.out.println("\ts -> save travel plan to file");
+        System.out.println("\tl -> load travel plan from file");
         System.out.println("\tq -> quit");
     }
 
@@ -146,28 +164,73 @@ public class TravelPlanner {
     private void doDisplay() {
         String selection = "";
         System.out.println("\nSelect from:");
-        while (!(selection.equals("h") || selection.equals("l"))) {
-            System.out.println("\th -> display total hours");
+        while (!(selection.equals("p") || selection.equals("l") || selection.equals("h"))) {
+            System.out.println("\tp -> display all activities");
             System.out.println("\tl -> display activities by location");
+            System.out.println("\th -> display total hours");
             selection = input.next().toLowerCase();
         }
-        if (selection.equals("h")) {
+        if (selection.equals("p")) {
+            printTravelPlan();
+        } else if (selection.equals("l")) {
+            printActivitiesByLocation();
+        } else if (selection.equals("h")) {
             travelPlan.totalHours();
             System.out.println("Total hours: " + travelPlan.totalHours() + " hours");
-        } else if (selection.equals("l")) {
-            System.out.println("Enter location: ");
-            String loc = input.next();
-            if (travelPlan.activitiesByLocation(loc).isEmpty()) {
-                System.out.println("No activity found");
-            } else {
-                System.out.println("Activities in " + loc + " are ");
-                ArrayList<Activity> activities = travelPlan.activitiesByLocation(loc);
-                for (Activity activity : activities) {
-                    System.out.println(activity.getDescription());
-                }
+        } else {
+            System.out.println("Selection not valid");
+        }
+    }
+
+    // EFFECTS: prints all the activities in travel plan to the console
+    private void printTravelPlan() {
+        ArrayList<Activity> activities = travelPlan.getPlanner();
+        for (Activity activity : activities) {
+            System.out.println(activity);
+        }
+    }
+
+    // EFFECTS: prints activities by location in travel plan to the console
+    private void printActivitiesByLocation() {
+        System.out.println("Enter location: ");
+        String loc = input.next();
+        if (travelPlan.activitiesByLocation(loc).isEmpty()) {
+            System.out.println("No activity found");
+        } else {
+            System.out.println("Activities in " + loc + " are ");
+            ArrayList<Activity> activities = travelPlan.activitiesByLocation(loc);
+            for (Activity activity : activities) {
+                System.out.println(activity.getDescription());
             }
         }
     }
+
+    // Method taken from WorkRoomApp class in
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+
+    // EFFECTS: saves the travel plan to file
+    private void saveTravelPlan() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(travelPlan);
+            jsonWriter.close();
+            System.out.println("Saved " + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads travel plan from file
+    private void loadTravelPlan() {
+        try {
+            travelPlan = jsonReader.read();
+            System.out.println("Loaded " + " from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
 
 }
 

@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // Represents an activity having a description, location and number of hours spending on the activity.
-public class Activity {
+public class Activity implements Writable {
     private String description;
     private String location;
     private int hours;
@@ -54,4 +57,19 @@ public class Activity {
         return location;
     }
 
+    // EFFECTS: returns string representation of this thingy
+    public String toString() {
+        return  "description: " + description + " location: " + location + " hours: " + hours;
+    }
+
+    // Method taken from Thingy class in
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("description", description);
+        json.put("location", location);
+        json.put("hours", hours);
+        return json;
+    }
 }

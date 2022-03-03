@@ -1,13 +1,20 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 // Represents a list of activities
-public class ActivityList {
+public class ActivityList implements Writable {
     private ArrayList<Activity> planner;
+    //private String name;
 
-    public ActivityList(ArrayList<Activity> planner) {
-        this.planner = planner;
+    public ActivityList() {
+        //this.name = name;
+        //this.planner = planner;
+        planner = new ArrayList<>();
     }
 
     // MODIFIES: this
@@ -64,5 +71,25 @@ public class ActivityList {
         return planner;
     }
 
+    // Method taken from WorkRoom class in
+    // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        //json.put("name", name);
+        json.put("planner", planner);
+        return json;
+    }
+
+    // EFFECTS: returns activity in this planner as a JSON array
+    private JSONArray plannerToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Activity activity : planner) {
+            jsonArray.put(activity.toJson());
+        }
+
+        return jsonArray;
+    }
 }
 

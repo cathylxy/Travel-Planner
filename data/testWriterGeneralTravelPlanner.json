@@ -1,0 +1,12 @@
+{"planner": [
+    {
+        "hours": 2,
+        "description": "Granville Island",
+        "location": "Vancouver"
+    },
+    {
+        "hours": 3,
+        "description": "Vancouver Art Gallery",
+        "location": "Vancouver"
+    }
+]}
