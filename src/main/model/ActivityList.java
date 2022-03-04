@@ -74,6 +74,7 @@ public class ActivityList implements Writable {
     // Method taken from WorkRoom class in
     // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
     @Override
+    // EFFECTS: returns activity in this planner as a JSON object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("planner", plannerToJson());
