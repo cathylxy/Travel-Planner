@@ -57,6 +57,7 @@ public class Activity implements Writable {
         return location;
     }
 
+
     // EFFECTS: returns string representation of this thingy
     public String toString() {
         return  "description: " + description + " location: " + location + " hours: " + hours;

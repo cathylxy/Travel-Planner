@@ -76,8 +76,7 @@ public class ActivityList implements Writable {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        //json.put("name", name);
-        json.put("planner", planner);
+        json.put("planner", plannerToJson());
         return json;
     }
 

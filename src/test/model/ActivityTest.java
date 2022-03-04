@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,6 +42,12 @@ class ActivityTest {
     void testBelowMinHours(){
         assertEquals(3, testActivity.reduceHours(4));
         assertEquals(3, testActivity.getHours());
+    }
+
+    @Test
+    void testToString(){
+        assertEquals("description: Vancouver Art Gallery location: Vancouver hours: 3",
+                testActivity.toString());
     }
 
 }
