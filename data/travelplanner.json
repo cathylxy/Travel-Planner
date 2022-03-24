@@ -1,0 +1,12 @@
+{"planner": [
+    {
+        "hours": 5,
+        "description": "Downtown",
+        "location": "Van"
+    },
+    {
+        "hours": 1,
+        "description": "Stanley Park",
+        "location": "Van"
+    }
+]}
