@@ -21,20 +21,20 @@ public class TravelPlannerUI extends JFrame implements ActionListener {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         JPanel panel = (JPanel) getContentPane();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        //TODO: how to center button
 
+        //add button and label
+        //TODO: how to center button
         panel.add(new JLabel("Welcome to Travel Planner"));
         JButton start = new JButton("Start");
         start.addActionListener(this);
         start.setActionCommand("Start");
-//        JButton load = new JButton("Load");
-//        load.addActionListener(this);
-//        load.setActionCommand("Load");
         panel.add(start);
-//        panel.add(load);
+
+        // add image
         loadImages();
         JLabel travelImage = new JLabel(travelFile);
         panel.add(travelImage);
+
         pack(); // size the frame
         setVisible(true); // make visible
     }

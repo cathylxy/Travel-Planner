@@ -21,13 +21,14 @@ import java.util.ArrayList;
 // https://
 
 // Represents application's add and display activities window frame.
-public class ActivityUI extends JPanel implements ActionListener, FocusListener {
+public class ActivityUI extends JPanel implements ActionListener, FocusListener { //FocusListener
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 800;
     private ActivityList travelPlanner;
     private boolean createActivity;
     JPanel addPanel;
     JPanel displayPanel;
+    JPanel entryPanel;
     JTextField nameField;
     JTextField locationField;
     JTextField hoursField;
@@ -45,8 +46,6 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
         addPanel.add(createButtons());
         add(addPanel); //left side of panel: create activity
         add(displayPanel()); //right side of panel: display
-        // TODO: add a boolean value as a parameter to check if it's a new / load operation
-        //  and construct travelPlanner differently
         travelPlanner = new ActivityList(); //construct new travel planner
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
@@ -54,7 +53,7 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
 
     //EFFECTS: create buttons on the panel
     public JComponent createButtons() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JButton addButton = new JButton("Add Activity");
         addButton.addActionListener(this);
@@ -66,11 +65,6 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
         deleteButton.setActionCommand("delete");
         panel.add(deleteButton);
 
-        JButton clearButton = new JButton("Clear"); //clear text box
-        clearButton.addActionListener(this);
-        clearButton.setActionCommand("clear");
-        panel.add(clearButton);
-
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(this);
         saveButton.setActionCommand("save");
@@ -81,6 +75,11 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
         loadButton.addActionListener(this);
         loadButton.setActionCommand("load");
         panel.add(loadButton);
+
+        JButton clearButton = new JButton("Clear"); //clear text box
+        clearButton.addActionListener(this);
+        clearButton.setActionCommand("clear");
+        panel.add(clearButton);
 
         return panel;
     }
@@ -115,52 +114,62 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
     // TODO: adjust label position
     //EFFECTS: create entry fields on the panel
     public JComponent createEntryFields() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT / 2));
+        entryPanel = new JPanel();
+        entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.Y_AXIS));
+        entryPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT / 2));
 
-        String[] labelStrings = {
-                "Description: ",
-                "Location: ",
-                "Hours: "
-        };
+        String[] labelStrings = {"Description: ", "Location: ", "Hours: "};
         JLabel[] labels = new JLabel[labelStrings.length];
         JComponent[] fields = new JComponent[labelStrings.length];
-        int fieldNum = 0;
-        //Create the text field and set it up.
-        nameField = new JTextField();
-        nameField.setMaximumSize(new Dimension(WIDTH / 2, 20));
-        //nameField.setColumns(20);
-        fields[fieldNum++] = nameField;
 
-        locationField = new JTextField();
-        locationField.setMaximumSize(new Dimension(WIDTH / 2, 20));
-        //locationField.setColumns(20);
-        fields[fieldNum++] = locationField;
+        setUp(fields);
+//        int fieldNum = 0;
+//
+//        nameField = new JTextField();
+//        nameField.setMaximumSize(new Dimension(WIDTH / 2, 20));
+//        fields[fieldNum++] = nameField;
+//
+//        locationField = new JTextField();
+//        locationField.setMaximumSize(new Dimension(WIDTH / 2, 20));
+//        fields[fieldNum++] = locationField;
+////
+//        hoursField = new JTextField();
+//        hoursField.setMaximumSize(new Dimension(WIDTH / 2, 20));
+//        fields[fieldNum++] = hoursField;
 
-        hoursField = new JTextField();
-        hoursField.setMaximumSize(new Dimension(WIDTH / 2, 20));
-        //hoursField.setColumns(20);
-        fields[fieldNum++] = hoursField;
-
-        //Associate label/field pairs, add everything, and lay it out.
-        for (int i = 0; i < labelStrings.length; i++) {
+        for (int i = 0; i < labelStrings.length; i++) {  //Associate label/field pairs
             labels[i] = new JLabel(labelStrings[i], JLabel.LEADING);
             labels[i].setLabelFor(fields[i]);
-            panel.add(labels[i]);
-            panel.add(fields[i]);
-
-            //Add listeners to each field.
+            entryPanel.add(labels[i]);
+            entryPanel.add(fields[i]);
             JTextField tf = null;
             tf = (JTextField) fields[i];
-            tf.addActionListener(this);
+            tf.addActionListener(this); //Add listeners to each field.
             tf.addFocusListener(this);
         }
-        return panel;
+        return entryPanel;
     }
 
-    public void createField() {
+    public JComponent[] setUp(JComponent[] fields) {
+        int fieldNum = 0;
 
+        nameField = new JTextField();
+        nameField.setMaximumSize(new Dimension(WIDTH / 2, 20));
+        fields[fieldNum++] = nameField;
+        //nameField.setColumns(20);
+//        fields[fieldNum++] = setField(nameField);
+//        fields[fieldNum++] = setField(locationField);
+//        fields[fieldNum++] = setField(hoursField);
+//
+        locationField = new JTextField();
+        locationField.setMaximumSize(new Dimension(WIDTH / 2, 20));
+        fields[fieldNum++] = locationField;
+//
+        hoursField = new JTextField();
+        hoursField.setMaximumSize(new Dimension(WIDTH / 2, 20));
+        fields[fieldNum++] = hoursField;
+
+        return fields;
     }
 
     //EFFECTS: create display activity panel
