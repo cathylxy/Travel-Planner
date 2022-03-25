@@ -21,11 +21,11 @@ import java.util.ArrayList;
 // Represents application's create and display travel plan window frame.
 public class ActivityUI extends JPanel implements ActionListener, FocusListener {
     private static final int WIDTH = 1000;
-    private static final int HEIGHT = 800;
+    private static final int HEIGHT = 600;
     private ActivityList travelPlanner;
     private boolean createActivity;
 
-    JPanel addPanel;
+    JPanel editPanel;
     JPanel entryPanel;
     JPanel displayPanel;
     JTextArea display;
@@ -41,23 +41,28 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
     public ActivityUI() {
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 
-        addPanel = new JPanel();
-        addPanel.setPreferredSize(new Dimension(WIDTH / 3 * 2, HEIGHT));
-        addPanel.setLayout(new BoxLayout(addPanel, BoxLayout.PAGE_AXIS));
-        addPanel.add(createEntryFields());
-        addPanel.add(createButtons());
-
-        add(addPanel);        //left side panel: create/delete travel plan
-        add(displayPanel()); //right side panel: display travel plan
+        add(createEditPanel());     //left side panel: edit travel plan
+        add(createDisplayPanel()); //right side panel: display travel plan
 
         travelPlanner = new ActivityList();
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
     }
 
+    //EFFECTS: create edit activity panel
+    public JComponent createEditPanel() {
+        editPanel = new JPanel();
+        editPanel.setPreferredSize(new Dimension(WIDTH / 3 * 2, HEIGHT));
+        editPanel.setLayout(new BoxLayout(editPanel, BoxLayout.PAGE_AXIS));
+        editPanel.add(createEntryFields());
+        editPanel.add(createButtons());
+
+        return editPanel;
+    }
+
     //EFFECTS: create buttons on the panel
     public JComponent createButtons() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panel = new JPanel(new FlowLayout());
 
         //add activity to travel plan
         JButton addButton = new JButton("Add Activity");
@@ -122,11 +127,11 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
         }
     }
 
-    // TODO: adjust label position
     //EFFECTS: create entry fields on the panel
     public JComponent createEntryFields() {
         entryPanel = new JPanel();
-        entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.PAGE_AXIS));
+        entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.Y_AXIS));
+        entryPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT / 2));
 
         String[] labelStrings = {"Description: ", "Location: ", "Hours: "};
         JLabel[] labels = new JLabel[labelStrings.length];
@@ -166,7 +171,7 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
     }
 
     //EFFECTS: create display activity panel
-    public JComponent displayPanel() {
+    public JComponent createDisplayPanel() {
         displayPanel = new JPanel(new BorderLayout());
         displayPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
         displayPanel.setBorder(BorderFactory.createEmptyBorder());
