@@ -46,7 +46,7 @@ class ActivityTest {
 
     @Test
     void testToString(){
-        assertEquals("description: Vancouver Art Gallery location: Vancouver hours: 3",
+        assertEquals("Description: Vancouver Art Gallery   Location: Vancouver   Hours: 3",
                 testActivity.toString());
     }
 

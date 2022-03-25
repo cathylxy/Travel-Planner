@@ -1,12 +1,12 @@
 {"planner": [
     {
-        "hours": 5,
-        "description": "Downtown",
-        "location": "Van"
+        "hours": 2,
+        "description": "Granville Island",
+        "location": "Vancouver"
     },
     {
-        "hours": 1,
-        "description": "Stanley Park",
-        "location": "Van"
+        "hours": 3,
+        "description": "Capilano",
+        "location": "North"
     }
 ]}

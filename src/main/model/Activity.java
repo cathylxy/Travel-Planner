@@ -60,7 +60,7 @@ public class Activity implements Writable {
 
     // EFFECTS: returns string representation of this activity
     public String toString() {
-        return  "description: " + description + " location: " + location + " hours: " + hours;
+        return  "Description: " + description + "   Location: " + location + "   Hours: " + hours;
     }
 
     // Method taken from Thingy class in
