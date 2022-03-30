@@ -22,6 +22,7 @@ public class ActivityList implements Writable {
     //          add hours of activity to total hours
     public void addActivity(Activity activity) {
         planner.add(activity);
+        EventLog.getInstance().logEvent(new Event("An activity has been added"));
     }
 
     // REQUIRES: planner is not empty
@@ -31,6 +32,7 @@ public class ActivityList implements Writable {
     public void deleteActivity(Activity activity) {
         int pos = planner.indexOf(activity); //get index of activity
         planner.remove(pos);
+        EventLog.getInstance().logEvent(new Event("An activity has been deleted"));
     }
 
     // REQUIRES: total >= 0

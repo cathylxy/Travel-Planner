@@ -57,7 +57,7 @@ public class Activity implements Writable {
         return location;
     }
 
-
+    @Override
     // EFFECTS: returns string representation of this activity
     public String toString() {
         return  "Description: " + description + "   Location: " + location + "   Hours: " + hours;

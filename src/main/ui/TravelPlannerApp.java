@@ -2,6 +2,8 @@ package ui;
 
 import model.Activity;
 import model.ActivityList;
+import model.Event;
+import model.EventLog;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 

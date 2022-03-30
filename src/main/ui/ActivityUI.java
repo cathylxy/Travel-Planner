@@ -2,15 +2,14 @@ package ui;
 
 import model.Activity;
 import model.ActivityList;
+import model.Event;
+import model.EventLog;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
     JPanel editPanel;
     JPanel entryPanel;
     JPanel displayPanel;
+    JPanel buttonPanel;
     JTextArea display;
     JTextField nameField;
     JTextField locationField;
@@ -42,6 +42,7 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 
         add(createEditPanel());     //left side panel: edit travel plan
+        //createEditPanel().setAlignmentX(Component.LEFT_ALIGNMENT);
         add(createDisplayPanel()); //right side panel: display travel plan
 
         travelPlanner = new ActivityList();
@@ -49,53 +50,52 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
         jsonReader = new JsonReader(JSON_STORE);
     }
 
-    //EFFECTS: create edit activity panel
+    // EFFECTS: create edit activity panel
     public JComponent createEditPanel() {
         editPanel = new JPanel();
-        editPanel.setPreferredSize(new Dimension(WIDTH / 3 * 2, HEIGHT));
         editPanel.setLayout(new BoxLayout(editPanel, BoxLayout.PAGE_AXIS));
+        editPanel.setPreferredSize(new Dimension(WIDTH / 3 * 2, HEIGHT / 2));
         editPanel.add(createEntryFields());
         editPanel.add(createButtons());
-
         return editPanel;
     }
 
     //EFFECTS: create buttons on the panel
     public JComponent createButtons() {
-        JPanel panel = new JPanel(new FlowLayout());
+        buttonPanel = new JPanel();
+        //buttonPanel.setBorder(BorderFactory.createLineBorder(Color.red));
 
         //add activity to travel plan
         JButton addButton = new JButton("Add Activity");
         addButton.addActionListener(this);
         addButton.setActionCommand("add");
-        panel.add(addButton);
+        buttonPanel.add(addButton);
 
         //delete activity from travel plan
         JButton deleteButton = new JButton("Delete Activity");
         deleteButton.addActionListener(this);
         deleteButton.setActionCommand("delete");
-        panel.add(deleteButton);
+        buttonPanel.add(deleteButton);
 
         //save new or modified travel plan
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(this);
         saveButton.setActionCommand("save");
-        panel.add(saveButton);
-        panel.setBorder(BorderFactory.createEmptyBorder());
+        buttonPanel.add(saveButton);
 
         //load existing travel plan
         JButton loadButton = new JButton("Load");
         loadButton.addActionListener(this);
         loadButton.setActionCommand("load");
-        panel.add(loadButton);
+        buttonPanel.add(loadButton);
 
         //clear entry fields
         JButton clearButton = new JButton("Clear");
         clearButton.addActionListener(this);
         clearButton.setActionCommand("clear");
-        panel.add(clearButton);
+        buttonPanel.add(clearButton);
 
-        return panel;
+        return buttonPanel;
     }
 
     // EFFECTS: called when the user clicks the button
@@ -130,8 +130,9 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
     //EFFECTS: create entry fields on the panel
     public JComponent createEntryFields() {
         entryPanel = new JPanel();
-        entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.Y_AXIS));
-        entryPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT / 2));
+        entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.PAGE_AXIS));
+        entryPanel.setPreferredSize(new Dimension(WIDTH / 3 * 2, HEIGHT / 2));
+        //entryPanel.setBorder(BorderFactory.createLineBorder(Color.green));
 
         String[] labelStrings = {"Description: ", "Location: ", "Hours: "};
         JLabel[] labels = new JLabel[labelStrings.length];
@@ -174,11 +175,12 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
     public JComponent createDisplayPanel() {
         displayPanel = new JPanel(new BorderLayout());
         displayPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
-        displayPanel.setBorder(BorderFactory.createEmptyBorder());
-        displayPanel.add(new JSeparator(JSeparator.VERTICAL), BorderLayout.LINE_START); //separate left and right
+        //displayPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        displayPanel.add(new JSeparator(JSeparator.VERTICAL)); //separate left and right
         display = new JTextArea();
         updateDisplays();
-        displayPanel.add(display, BorderLayout.CENTER);
+        //displayPanel.add(display, BorderLayout.CENTER);
+        displayPanel.add(display);
         return displayPanel;
     }
 
@@ -211,7 +213,7 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
     }
 
     // EFFECTS: loads travel plan from file
-    private void loadTravelPlan() {
+    public void loadTravelPlan() {
         try {
             travelPlanner = jsonReader.read();
             updateDisplays();
@@ -233,6 +235,22 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
         //Create and set up the window.
         JFrame frame = new JFrame("Travel Planner");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                //JOptionPane.showConfirmDialog(null,"Are you sure to close!");
+                for (Event event : EventLog.getInstance()) { //print events log
+                    System.out.println(event);
+                }
+            }
+//            @Override
+//            public void windowOpened(WindowEvent e) {
+//                super.windowOpened(e);
+//                JOptionPane.showMessageDialog(null, "Welcome to the System");
+//            }
+        });
 
         //Add contents to the window.
         frame.add(new ActivityUI());

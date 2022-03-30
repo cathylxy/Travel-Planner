@@ -23,3 +23,14 @@ improve people’s travel experience by helping them make a travel plan.
 - As a user, I want to be able to save my travel plan to file.
 - As a user, I want to be able to be able to load my travel plan from file.
 
+## Phase 4: Task 2
+Wed Mar 30 12:34:10 PDT 2022 \
+An activity has been added \
+Wed Mar 30 12:34:35 PDT 2022 \
+An activity has been added \
+Wed Mar 30 12:34:46 PDT 2022 \
+An activity has been added \
+Wed Mar 30 12:35:02 PDT 2022 \
+An activity has been added \
+Wed Mar 30 12:35:14 PDT 2022 \
+An activity has been deleted 

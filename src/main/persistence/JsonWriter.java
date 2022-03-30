@@ -1,6 +1,5 @@
 package persistence;
 
-import model.Activity;
 import model.ActivityList;
 import org.json.JSONObject;
 
