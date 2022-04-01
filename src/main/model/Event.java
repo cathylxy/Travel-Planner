@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Represents an alarm system event.
+ * Represents a travel planner event.
  */
 
 // Method taken from Event class in

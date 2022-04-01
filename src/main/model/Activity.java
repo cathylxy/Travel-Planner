@@ -5,10 +5,11 @@ import persistence.Writable;
 
 // Represents an activity having a description, location and number of hours spending on the activity.
 public class Activity implements Writable {
+    public static final int MAX_HOURS = 24; // max hours can be added to each activity
+
     private String description;
     private String location;
     private int hours;
-    public static final int MAX_HOURS = 24; // max hours can be added to each activity
 
     public Activity(String description, String location, int hours) {
         this.description = description;
@@ -20,8 +21,7 @@ public class Activity implements Writable {
     // MODIFIES: this
     // EFFECTS:  if hrs <= MAX_HOURS:
     //           - add the number of hours spent on an activity
-    //           - return true
-    //           otherwise, return false
+    //           - return the latest activity hour
     public int addHours(int hrs) {
         if (getHours() + hrs <= MAX_HOURS) {
             this.hours += hrs;

@@ -9,11 +9,8 @@ import java.util.ArrayList;
 // Represents a list of activities
 public class ActivityList implements Writable {
     private ArrayList<Activity> planner;
-    //private String name;
 
     public ActivityList() {
-        //this.name = name;
-        //this.planner = planner;
         planner = new ArrayList<>();
     }
 

@@ -99,6 +99,7 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
     }
 
     // EFFECTS: called when the user clicks the button
+    @Override
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("clear")) {
             createActivity = false;
@@ -230,13 +231,13 @@ public class ActivityUI extends JPanel implements ActionListener, FocusListener 
     public void focusLost(FocusEvent e) {
     }
 
+
     // EFFECTS: create a frame to show GUI
     public static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("Travel Planner");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
-
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);

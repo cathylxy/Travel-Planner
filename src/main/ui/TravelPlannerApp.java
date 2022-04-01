@@ -2,15 +2,12 @@ package ui;
 
 import model.Activity;
 import model.ActivityList;
-import model.Event;
-import model.EventLog;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import static model.Activity.MAX_HOURS;
@@ -75,7 +72,7 @@ public class TravelPlannerApp {
     // MODIFIES: this
     // EFFECTS: initializes activity list
     private void init() {
-        ArrayList activityList = new ArrayList<>();
+        //ArrayList activityList = new ArrayList<>();
         travelPlan = new ActivityList();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
